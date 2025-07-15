@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayıt Ol</title>
+    <style>
+        /* Genel Stil */
+        body {
+            background-color: #1E3A8A; /* Koyu mavi arka plan */
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 700px; /* Form genişliği sabit kaldı */
+            background-color: #ffffff;
+            padding: 10px; /* Yüksekliği küçültmek için padding'i biraz daha azaltıyoruz */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Form Etiketleri ve Input Alanları */
+        .register-form label {
+            display: block;
+            margin-bottom: 4px; /* Etiketler arasındaki boşluk azaltıldı */
+            font-size: 16px;
+            color: #333;
+        }
+
+        .register-form input, .register-form select {
+            width: 100%;
+            max-width: 400px; /* 👈 Genişliği sınırlıyoruz */
+            margin: 0 auto 6px auto; /* 👈 Ortalıyoruz */
+            display: block;
+            padding: 6px; /* Yüksekliği %50 azaltmak için padding küçültüldü */
+            margin-bottom: 6px; /* Inputlar arasındaki boşluk azaltıldı */
+            border-radius: 5px;
+            border: 2px solid #dcdcdc;
+            font-size: 14px; /* Yazı boyutu biraz küçültüldü */
+            background-color: #f7f7f7;
+        }
+
+        /* Buton Stili */
+        .register-button {
+            width: 100%;
+            padding: 8px; /* Buton boyutunu da küçültüyoruz */
+            background-color: #4F46E5;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .register-button:hover {
+                background-color: #4338CA;
+            }
+
+        /* Focus ve Input Alanı */
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4F46E5;
+        }
+
+        /* Profil Fotoğrafı Input */
+        input[type="file"] {
+            padding: 6px; /* Fotoğraf inputu da küçültüldü */
+            background-color: #f7f7f7;
+            border: 2px solid #dcdcdc;
+            font-size: 14px;
+        }
+
+        /* Linkler */
+        .links-container {
+            margin-top: 20px;
+        }
+
+        .link {
+            color: #fbbf24;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+            .link:hover {
+                text-decoration: underline;
+            }
+
+        /* Form Alanı - Etiketler, Input Alanları, Buton */
+        a {
+            text-decoration: none;
+            color: #4F46E5;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <form method="post" action="/KullaniciPanel/KayitOl" class="register-form" enctype="multipart/form-data">
+            <label for="kullaniciAdi">Kullanıcı Adı:</label>
+            <input type="text" id="kullaniciAdi" name="kullaniciAdi" required>
+
+            <label for="sifre">Şifre:</label>
+            <input type="password" id="sifre" name="sifre" required>
+
+            <label for="ad">Ad:</label>
+            <input type="text" id="ad" name="ad" required>
+
+            <label for="soyad">Soyad:</label>
+            <input type="text" id="soyad" name="soyad" required>
+
+            <label for="dogumTarihi">Doğum Tarihi:</label>
+            <input type="date" id="dogumTarihi" name="dogumTarihi" required>
+
+            <label for="cinsiyet">Cinsiyet:</label>
+            <select id="cinsiyet" name="cinsiyet" required>
+                <option value="Erkek">Erkek</option>
+                <option value="Kadın">Kadın</option>
+            </select>
+
+            <label for="email">E-posta:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="telefonNumarasi">Telefon Numarası:</label>
+            <input type="text" id="telefonNumarasi" name="telefonNumarasi" required>
+
+            <label for="ilgiAlani">İlgi Alanları:</label>
+            <input type="text" id="ilgiAlani" name="ilgiAlani">
+
+            <label for="konum">Konum:</label>
+            <input type="text" id="konum" name="konum" placeholder="Konum giriniz..." required>
+
+            <label for="profilFotografi">Profil Fotoğrafı:</label>
+            <input type="file" id="profilFotografi" name="profilFotografi">
+
+            <button type="submit" class="register-button">Kayıt Ol</button>
+        </form>
+    </div>
+
+</body>
+</html>

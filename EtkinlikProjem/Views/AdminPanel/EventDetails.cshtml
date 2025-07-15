@@ -1,0 +1,156 @@
+﻿@model List<KatilimciViewModel>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Sayfa genel stili */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003366; /* Koyu mavi arka plan */
+            color: white; /* Beyaz metin */
+            margin: 0;
+            padding: 0;
+        }
+        /* Başlık stili */
+        h2 {
+            text-align: center;
+            color: #FFB91F; /* Sarı başlık rengi */
+            margin-top: 20px;
+            font-size: 40px;
+        }
+        /* Tablo stili */
+        .table-container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        th {
+            background-color: rgba(74,144,226,0.5);
+            color: #FFB91F;
+        }
+
+        tr:hover {
+            background-color: rgba(255,185,31,0.2);
+        }
+        /* Butonlar için stil */
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4A90E2; /* Mavi tonunda buton arka planı */
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            margin: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Buton gölgesi */
+        }
+            /* Buton üzerine gelindiğinde renk değişimi ve büyütme efekti */
+            button:hover {
+                background-color: #FFB91F; /* Sarı tonuna dönüş */
+                transform: scale(1.1); /* Buton büyüme efekti */
+            }
+
+        .remove-btn {
+            background-color: #FF4136;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .remove-btn:hover {
+                background-color: #D91E18;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        @if (Model != null && Model.Any())
+        {
+            <h2>@Model.First().EtkinlikAdi Etkinliği Katılımcıları</h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı Adı</th>
+                            <th>Ad</th>
+                            <th>Soyad</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var katilimci in Model)
+                        {
+                            <tr>
+                                <td>@katilimci.KullaniciAdi</td>
+                                <td>@katilimci.Ad</td>
+                                <td>@katilimci.Soyad</td>
+                                <td>
+                                    <form asp-action="EtkinliktenCikar" asp-controller="AdminPanel" method="post">
+                                        <input type="hidden" name="kullaniciId" value="@katilimci.KullaniciID" />
+                                        <input type="hidden" name="etkinlikId" value="@katilimci.EtkinlikID" />
+                                        <button type="submit" class="remove-btn" onclick="return confirm('Bu kullanıcıyı etkinlikten çıkarmak istediğinize emin misiniz?')">Etkinlikten Çıkar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="window.location.href='@Url.Action("AddParticipant", "AdminPanel", new { etkinlikId = Model.First().EtkinlikID })'">Yeni Katılımcı Ekle</button>
+                <button onclick="window.history.back()">Geri Dön</button>
+            </div>
+        }
+        else
+        {
+            <h2>Katılımcı Bulunamadı</h2>
+            <p>Bu etkinliğe henüz katılımcı kaydedilmemiş.</p>
+            <div class="action-buttons">
+                <button onclick="window.location.href='@Url.Action("AddParticipant", "AdminPanel", new { etkinlikId = ViewBag.EtkinlikID })'">Yeni Katılımcı Ekle</button>
+                <button onclick="window.history.back()">Geri Dön</button>
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Ana Sayfa";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Sayfa genel stili */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003366; /* Koyu mavi arka plan */
+            color: white; /* Beyaz metin */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Başlık stili */
+        h2 {
+            text-align: center;
+            color: #FFB91F; /* Sarı başlık rengi */
+            margin-top: 100px;
+            font-size: 40px;
+        }
+
+        /* Butonlar için stil */
+        form {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        button {
+            background-color: #4A90E2; /* Mavi tonunda buton arka planı */
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            margin: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Buton gölgesi */
+        }
+
+            /* Buton üzerine gelindiğinde renk değişimi ve büyütme efekti */
+            button:hover {
+                background-color: #FFB91F; /* Sarı tonuna dönüş */
+                transform: scale(1.1); /* Buton büyüme efekti */
+            }
+
+        /* Sayfa ortalama */
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Alt yazı için stil */
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Hoş geldiniz!</h2>
+
+        <!-- Kullanıcı Girişi Butonu -->
+        <form method="post" action="@Url.Action("KullaniciGiris", "Home")">
+            <button type="submit">Kullanıcı Girişi</button>
+        </form>
+
+        <!-- Admin Girişi Butonu -->
+        <form method="post" action="@Url.Action("AdminGiris", "Home")">
+            <button type="submit">Admin Girişi</button>
+        </form>
+
+        <p> Lütfen giriş yapın.</p>
+    </div>
+</body>
+</html>

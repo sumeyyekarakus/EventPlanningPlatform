@@ -1,0 +1,221 @@
+﻿@model List<EtkinlikProjem.Models.EtkinlikViewModel>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Yönetimi</title>
+    <style>
+        /* Sayfa genel stili */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003366; /* Koyu mavi arka plan */
+            color: white; /* Beyaz metin */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Başlık stili */
+        h1 {
+            text-align: center;
+            color: #FFB91F; /* Sarı başlık rengi */
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #FFB91F; /* Sarı başlık rengi */
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Butonlar için stil */
+        .btn {
+            background-color: #4A90E2; /* Mavi tonunda buton arka planı */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Buton gölgesi */
+        }
+
+            /* Buton üzerine gelindiğinde renk değişimi ve büyütme efekti */
+            .btn:hover {
+                background-color: #FFB91F; /* Sarı tonuna dönüş */
+                transform: scale(1.1); /* Buton büyüme efekti */
+            }
+
+        /* Tablo tasarımı */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            color: black;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4F46E5;
+            color: white;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+
+            td[style*="display: flex"] {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+        /* Form stili */
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            flex: 1;
+            background-color: #f9fafb;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            color: black;
+        }
+
+        /* Sol ve sağ bölme düzeni */
+        .content {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        /* Alt yazı için stil */
+        .no-events {
+            text-align: center;
+            font-size: 18px;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Etkinlik Yönetimi</h1>
+    <div class="content">
+        <!-- Sol tarafta etkinlik tablosu -->
+        <div style="flex: 2;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Etkinlik ID</th>
+                        <th>Ad</th>
+                        <th>Açıklama</th>
+                        <th>Tarih</th>
+                        <th>Saat</th>
+                        <th>Kategori</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var etkinlik in Model)
+                        {
+                            <tr>
+                                <td>@etkinlik.EtkinlikID</td>
+                                <td>
+                                    <a href="@Url.Action("EventDetails", "AdminPanel", new { id = etkinlik.EtkinlikID })" style="text-decoration: none; color: inherit;">
+                                        @etkinlik.EtkinlikAdi
+                                    </a>
+                                </td>
+                                <td>@etkinlik.Aciklama</td>
+                                <td>@etkinlik.Tarih.ToString("yyyy-MM-dd")</td>
+                                <td>@etkinlik.Saat</td>
+                                <td>@etkinlik.Kategori</td>
+                                <td>
+                                    @if (!etkinlik.Onay)
+                                    {
+                                        <span style="color: red;">Onay Bekliyor</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color: green;">Onaylandı</span>
+                                    }
+                                </td>
+                                <td style="display: flex;">
+                                    <form asp-action="ApproveEvent" asp-controller="AdminPanel" method="post">
+                                        <input type="hidden" name="etkinlikId" value="@etkinlik.EtkinlikID" />
+                                        @if (!etkinlik.Onay)
+                                        {
+                                            <button type="submit" class="btn">Onayla</button>
+                                        }
+                                    </form>
+                                    <form asp-action="EditEvent" asp-controller="AdminPanel" method="get">
+                                        <input type="hidden" name="etkinlikId" value="@etkinlik.EtkinlikID" />
+                                        <button type="submit" class="btn">Düzenle</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="no-events">Henüz hiç etkinlik bulunmamaktadır.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sağ tarafta yeni etkinlik oluşturma -->
+        <div class="form-container">
+            <h2>Yeni Etkinlik Oluştur</h2>
+            <form asp-action="CreateEvent" asp-controller="AdminPanel" method="post">
+                <label for="etkinlikAdi">Etkinlik Adı:</label>
+                <input type="text" id="etkinlikAdi" name="EtkinlikAdi" class="form-control" required />
+
+                <label for="aciklama">Açıklama:</label>
+                <textarea id="aciklama" name="Aciklama" class="form-control" required></textarea>
+
+                <label for="tarih">Tarih:</label>
+                <input type="date" id="tarih" name="Tarih" class="form-control" required />
+
+                <label for="saat">Saat:</label>
+                <input type="time" id="saat" name="Saat" class="form-control" required />
+
+                <label for="kategori">Kategori:</label>
+                <input type="text" id="kategori" name="Kategori" class="form-control" required />
+
+                <label for="etkinlikSuresi">Etkinlik Süresi (dk):</label>
+                <input type="number" id="etkinlikSuresi" name="EtkinlikSuresi" class="form-control" required min="1" />
+
+                <label for="konum">Konum:</label>
+                <input type="text" id="konum" name="Konum" class="form-control" required />
+
+                <button type="submit" class="btn" style="margin-top: 10px;">Oluştur</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

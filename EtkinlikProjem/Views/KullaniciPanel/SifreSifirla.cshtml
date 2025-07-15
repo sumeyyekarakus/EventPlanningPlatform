@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şifre Sıfırlama</title>
+    <style>
+        /* Genel Stil */
+        body {
+            background-color: #1E3A8A; /* Koyu mavi arka plan */
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reset-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Form Etiketleri ve Input Alanları */
+        .reset-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .reset-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 2px solid #dcdcdc;
+            font-size: 16px;
+            background-color: #f7f7f7;
+        }
+
+        /* Buton Stili */
+        .reset-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4F46E5; /* Mor buton rengi */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .reset-button:hover {
+                background-color: #4338CA; /* Buton hover (koyu mor) */
+            }
+
+        /* Focus ve Input Alanı */
+        input:focus {
+            outline: none;
+            border-color: #4F46E5; /* Mor focus rengi */
+        }
+
+        /* Linkler */
+        .links-container {
+            margin-top: 20px;
+        }
+
+        .link {
+            color: #fbbf24; /* Sarı renk */
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+            .link:hover {
+                text-decoration: underline;
+            }
+
+    </style>
+</head>
+<body>
+
+    <div class="reset-container">
+        <form method="post" action="/KullaniciPanel/SifreSifirla" class="reset-form">
+            <label for="email">E-posta Adresi:</label>
+            <input type="email" id="email" name="email" required>
+
+            <button type="submit" class="reset-button">Şifre Sıfırla</button>
+        </form>
+    </div>
+
+</body>
+</html>

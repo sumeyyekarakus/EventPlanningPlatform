@@ -1,0 +1,139 @@
+﻿@model AddParticipantViewModel
+
+@{
+    ViewBag.Title = "Yeni Katılımcı Ekle";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        /* Sayfa genel stili */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003366; /* Koyu mavi arka plan */
+            color: white; /* Beyaz metin */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Başlık stili */
+        h2 {
+            text-align: center;
+            color: #FFB91F; /* Sarı başlık rengi */
+            margin-top: 50px;
+            font-size: 36px;
+        }
+
+        /* Sayfa ortalama */
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* Form stili */
+        form {
+            background-color: #1A1A1A; /* Koyu gri form arka planı */
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #FFB91F;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: #FFB91F;
+                box-shadow: 0 0 5px #FFB91F;
+            }
+
+        /* Butonlar için stil */
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4A90E2; /* Mavi tonunda buton arka planı */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+            /* Buton üzerine gelindiğinde */
+            button:hover {
+                background-color: #FFB91F; /* Sarı tonuna dönüş */
+                transform: scale(1.1);
+            }
+
+            button[type="button"] {
+                background-color: #FF5E5E; /* İptal için kırmızı */
+            }
+
+                button[type="button"]:hover {
+                    background-color: #FFB91F; /* Sarı tonuna dönüş */
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Yeni Katılımcı Ekle</h2>
+
+        <form asp-action="AddParticipant" method="post">
+            <input type="hidden" name="etkinlikId" value="@Model.EtkinlikID" />
+
+            <div class="form-group">
+                <label for="kullaniciId">Kullanıcı Seç:</label>
+                <select name="kullaniciId" class="form-control" required>
+                    <option value="">Kullanıcı Seçin</option>
+                    @foreach (var user in Model.AvailableUsers)
+                    {
+                        <option value="@user.KullaniciID">
+                            @user.Ad @user.Soyad (@user.KullaniciAdi)
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="action-buttons">
+                <button type="submit">Katılımcı Ekle</button>
+                <button type="button" onclick="window.history.back()">İptal</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

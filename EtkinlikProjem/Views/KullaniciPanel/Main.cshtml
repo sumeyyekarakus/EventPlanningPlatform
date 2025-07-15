@@ -1,0 +1,201 @@
+﻿@model List<Etkinlik>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Yönetimi</title>
+    <style>
+        :root {
+            --primary-color: #1E3A8A;
+            --secondary-color: #3B82F6;
+            --background-color: #F0F4F8;
+            --white: #FFFFFF;
+            --text-color: #2D3748;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .event-list, .form-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+            .event-list h2, .form-container h2 {
+                color: var(--primary-color);
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            table th {
+                background-color: var(--primary-color);
+                color: var(--white);
+                padding: 10px;
+                text-align: left;
+            }
+
+            table td {
+                padding: 10px;
+                border-bottom: 1px solid #E2E8F0;
+            }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+            form label {
+                color: var(--primary-color);
+                font-weight: bold;
+            }
+
+            form input {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #CBD5E0;
+                border-radius: 4px;
+            }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            .btn:hover {
+                background-color: var(--secondary-color);
+            }
+
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .total-score {
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @@media (max-width: 768px) {
+            .container
+
+        {
+            flex-direction: column;
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="total-score">
+            <h3>Toplam Puanınız: @ViewBag.ToplamPuan</h3>
+        </div>
+        <div class="event-list">
+            <h2>Etkinlik Listesi</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Etkinlik Adı</th>
+                        <th>Tarih</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var etkinlik in Model)
+                    {
+                        <tr>
+                            <td>@etkinlik.EtkinlikID</td>
+                            <td>@etkinlik.EtkinlikAdi</td>
+                            <td>@etkinlik.Tarih.ToShortDateString()</td>
+                            <td>
+                                <div class="actions">
+                                    <form asp-action="EtkinlikDetay" method="get">
+                                        <input type="hidden" name="etkinlikID" value="@etkinlik.EtkinlikID" />
+                                        <button type="submit" class="btn">Detaylar</button>
+                                    </form>
+                                    @if (etkinlik.KullaniciID == int.Parse(Context.Session.GetString("KullaniciID")))
+                                    {
+                                        <form asp-action="Sil" method="post">
+                                            <input type="hidden" name="etkinlikID" value="@etkinlik.EtkinlikID" />
+                                            <button type="submit" class="btn">Sil</button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="form-container">
+            <h2>Etkinlik Ekle</h2>
+            <form asp-action="Ekle" method="post">
+                <label>Etkinlik Adı:</label>
+                <input type="text" name="etkinlikAdi" required />
+
+                <label>Açıklama:</label>
+                <input type="text" name="aciklama" required />
+
+                <label>Tarih:</label>
+                <input type="date" name="tarih" required />
+
+                <label>Saat:</label>
+                <input type="time" name="saat" required />
+
+                <label>Süre (dk):</label>
+                <input type="number" name="etkinlikSuresi" required />
+
+                <label>Konum:</label>
+                <input type="text" name="konum" required />
+
+                <label>Kategori:</label>
+                <input type="text" name="kategori" required />
+
+                <button type="submit" class="btn">Ekle</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

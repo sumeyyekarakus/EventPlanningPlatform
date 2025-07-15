@@ -1,0 +1,85 @@
+﻿@{
+    var etkinlikler = ViewBag.Etkinlikler ?? "[]";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Etkinlik Haritası</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+
+        #error-message {
+            display: none;
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Etkinlik Haritası</h1>
+        <div id="map"></div>
+        <div id="error-message">Haritalar kullanılamıyor.</div>
+    </div>
+
+    <script>
+        try {
+            // Etkinlikleri JavaScript'te parse et
+            var etkinlikler = JSON.parse('@Html.Raw(etkinlikler)');
+
+            // Haritayı başlat
+            var map = L.map('map').setView([39.0, 35.0], 6);
+
+            // OpenStreetMap katmanını ekle
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Her etkinlik için marker ekle
+            etkinlikler.forEach(function (etkinlik) {
+                // Konum bilgisini parse et
+                if (etkinlik.Konum) {
+                    try {
+                        // Koordinatları ayır
+                        var koordinatlar = etkinlik.Konum.split(',').map(parseFloat);
+
+                        // Geçerli koordinat kontrolü
+                        if (koordinatlar.length === 2 && !isNaN(koordinatlar[0]) && !isNaN(koordinatlar[1])) {
+                            // Marker oluştur
+                            var marker = L.marker([koordinatlar[0], koordinatlar[1]]).addTo(map);
+
+                            // Popup içeriği hazırla
+                            var popupIcerik = `
+                                <div>
+                                    <strong>${etkinlik.EtkinlikAdi}</strong><br>
+                                    Tarih: ${new Date(etkinlik.Tarih).toLocaleDateString()}<br>
+                                    Saat: ${etkinlik.Saat}
+                                </div>
+                            `;
+
+                            // Popup'ı marker'a bağla
+                            marker.bindPopup(popupIcerik);
+                        }
+                    } catch (error) {
+                        console.error('Konum parse hatası:', error);
+                    }
+                }
+            });
+        } catch (error) {
+            // Eğer harita yüklenemedi ise hata mesajı göster
+            document.getElementById('map').style.display = 'none';
+            document.getElementById('error-message').style.display = 'block';
+            console.error('Harita yüklenemedi:', error);
+        }
+    </script>
+</body>
+</html>

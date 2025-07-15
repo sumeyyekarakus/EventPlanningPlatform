@@ -1,0 +1,105 @@
+﻿@model EtkinlikProjem.Models.EtkinlikViewModel
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etkinlik Düzenle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #003366; /* Koyu mavi arka plan */
+            color: white; /* Beyaz metin */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #FFB91F; /* Sarı başlık rengi */
+            margin-top: 20px;
+        }
+
+        .form-container {
+            background-color: #f9fafb;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: auto;
+            color: black;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4F46E5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+            .btn:hover {
+                background-color: #FFB91F;
+                transform: scale(1.1);
+            }
+
+        .btn-danger {
+            background-color: #E53E3E;
+        }
+
+            .btn-danger:hover {
+                background-color: #C53030;
+            }
+    </style>
+</head>
+<body>
+    <h1>Etkinlik Düzenle</h1>
+    <div class="form-container">
+        <form asp-action="EditEvent" asp-controller="AdminPanel" method="post">
+            <input type="hidden" name="EtkinlikID" value="@Model.EtkinlikID" />
+
+            <label for="etkinlikAdi">Etkinlik Adı:</label>
+            <input type="text" id="etkinlikAdi" name="EtkinlikAdi" value="@Model.EtkinlikAdi" class="form-control" required />
+
+            <label for="aciklama">Açıklama:</label>
+            <textarea id="aciklama" name="Aciklama" class="form-control" required>@Model.Aciklama</textarea>
+
+            <label for="tarih">Tarih:</label>
+            <input type="date" id="tarih" name="Tarih" value="@Model.Tarih.ToString("yyyy-MM-dd")" class="form-control" required />
+
+            <label for="saat">Saat:</label>
+            <input type="time" id="saat" name="Saat" value="@Model.Saat.ToString(@"hh\:mm")" class="form-control" required />
+
+            <label for="kategori">Kategori:</label>
+            <input type="text" id="kategori" name="Kategori" value="@Model.Kategori" class="form-control" required />
+
+            <label for="etkinlikSuresi">Etkinlik Süresi (Saat):</label>
+            <input type="number" id="etkinlikSuresi" name="EtkinlikSuresi" value="@Model.EtkinlikSuresi" class="form-control" required />
+
+            <label for="konum">Konum:</label>
+            <input type="text" id="konum" name="Konum" value="@Model.Konum" class="form-control" required />
+
+            <button type="submit" class="btn" style="margin-top: 10px;">Kaydet</button>
+        </form>
+
+        <!-- Silme Formu -->
+        <form asp-action="DeleteEvent" asp-controller="AdminPanel" method="post" style="margin-top: 20px;">
+            <input type="hidden" name="etkinlikId" value="@Model.EtkinlikID" />
+            <button type="submit" class="btn btn-danger">Etkinliği Sil</button>
+        </form>
+    </div>
+</body>
+</html>

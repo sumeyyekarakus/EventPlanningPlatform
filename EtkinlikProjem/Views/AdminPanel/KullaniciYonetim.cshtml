@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Yönetimi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4F46E5;
+            color: white;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4F46E5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #4338CA;
+            }
+
+        .add-user {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kullanıcı Yönetimi</h1>
+
+    <button class="" onclick="location.href='/AdminPanel/KullaniciEkle'">Yeni Kullanıcı Ekle</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Kullanıcı Adı</th>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.KullaniciID</td>
+                    <td>@user.KullaniciAdi</td>
+                    <td>@user.Ad</td>
+                    <td>@user.Soyad</td>
+                    <td>@user.Email</td>
+                    <td>@user.Rol</td>
+                    <td>
+                        <button onclick="location.href='/AdminPanel/EditUser/@user.KullaniciID'">Düzenle</button>
+                        <form method="post" action="/AdminPanel/DeleteUser" style="display:inline;">
+                            <input type="hidden" name="id" value="@user.KullaniciID" />
+                            <button type="submit" onclick="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
