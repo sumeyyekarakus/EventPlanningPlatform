@@ -54,9 +54,7 @@ Bu proje akademik amaçlarla geliştirilmiştir.
 
 ______________________________________________________________________________________________________________________________________________________________________________________________________________________
 
-İşte verdiğin `README.md` içeriğinin İngilizce çevirisi:
 
----
 
 # 🧠 SmartEventPlanner – Smart Event Planning Platform
 
